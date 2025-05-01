@@ -29,39 +29,50 @@
         private void InitializeComponent()
         {
             tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
+            tabPageApicativos = new TabPage();
+            lbTituloAplicativos = new Label();
             gridAplicativos = new DataGridView();
-            tabPage2 = new TabPage();
+            tabPageAdicionarConf = new TabPage();
             chkAplicacoesPadraoComunix = new CheckBox();
             gridAplicativosAbertos = new DataGridView();
-            button1 = new Button();
+            btnConsutarJanelasAbertas = new Button();
             tabControl1.SuspendLayout();
-            tabPage1.SuspendLayout();
+            tabPageApicativos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridAplicativos).BeginInit();
-            tabPage2.SuspendLayout();
+            tabPageAdicionarConf.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridAplicativosAbertos).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPageApicativos);
+            tabControl1.Controls.Add(tabPageAdicionarConf);
             tabControl1.Location = new Point(12, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(832, 426);
             tabControl1.TabIndex = 3;
             // 
-            // tabPage1
+            // tabPageApicativos
             // 
-            tabPage1.Controls.Add(gridAplicativos);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(824, 398);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "tabPage1";
-            tabPage1.UseVisualStyleBackColor = true;
+            tabPageApicativos.Controls.Add(lbTituloAplicativos);
+            tabPageApicativos.Controls.Add(gridAplicativos);
+            tabPageApicativos.Location = new Point(4, 24);
+            tabPageApicativos.Name = "tabPageApicativos";
+            tabPageApicativos.Padding = new Padding(3);
+            tabPageApicativos.Size = new Size(824, 398);
+            tabPageApicativos.TabIndex = 0;
+            tabPageApicativos.Text = "Apicativos";
+            tabPageApicativos.UseVisualStyleBackColor = true;
+            // 
+            // lbTituloAplicativos
+            // 
+            lbTituloAplicativos.AutoSize = true;
+            lbTituloAplicativos.Location = new Point(6, 12);
+            lbTituloAplicativos.Name = "lbTituloAplicativos";
+            lbTituloAplicativos.Size = new Size(209, 15);
+            lbTituloAplicativos.TabIndex = 4;
+            lbTituloAplicativos.Text = "Aplicativos que precisam estar abertos";
             // 
             // gridAplicativos
             // 
@@ -70,34 +81,34 @@
             gridAplicativos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             gridAplicativos.BackgroundColor = SystemColors.ControlLightLight;
             gridAplicativos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridAplicativos.Location = new Point(27, 19);
+            gridAplicativos.Location = new Point(7, 30);
             gridAplicativos.Margin = new Padding(4, 3, 4, 3);
             gridAplicativos.Name = "gridAplicativos";
             gridAplicativos.ReadOnly = true;
             gridAplicativos.RowHeadersVisible = false;
-            gridAplicativos.Size = new Size(775, 352);
+            gridAplicativos.Size = new Size(810, 362);
             gridAplicativos.TabIndex = 3;
             gridAplicativos.Leave += gridAplicativos_Leave;
             // 
-            // tabPage2
+            // tabPageAdicionarConf
             // 
-            tabPage2.Controls.Add(chkAplicacoesPadraoComunix);
-            tabPage2.Controls.Add(gridAplicativosAbertos);
-            tabPage2.Controls.Add(button1);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(824, 398);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
-            tabPage2.UseVisualStyleBackColor = true;
+            tabPageAdicionarConf.Controls.Add(chkAplicacoesPadraoComunix);
+            tabPageAdicionarConf.Controls.Add(gridAplicativosAbertos);
+            tabPageAdicionarConf.Controls.Add(btnConsutarJanelasAbertas);
+            tabPageAdicionarConf.Location = new Point(4, 24);
+            tabPageAdicionarConf.Name = "tabPageAdicionarConf";
+            tabPageAdicionarConf.Padding = new Padding(3);
+            tabPageAdicionarConf.Size = new Size(824, 398);
+            tabPageAdicionarConf.TabIndex = 1;
+            tabPageAdicionarConf.Text = "AdicionarConf";
+            tabPageAdicionarConf.UseVisualStyleBackColor = true;
             // 
             // chkAplicacoesPadraoComunix
             // 
             chkAplicacoesPadraoComunix.AutoSize = true;
             chkAplicacoesPadraoComunix.Checked = true;
             chkAplicacoesPadraoComunix.CheckState = CheckState.Checked;
-            chkAplicacoesPadraoComunix.Location = new Point(20, 20);
+            chkAplicacoesPadraoComunix.Location = new Point(7, 347);
             chkAplicacoesPadraoComunix.Name = "chkAplicacoesPadraoComunix";
             chkAplicacoesPadraoComunix.Size = new Size(218, 19);
             chkAplicacoesPadraoComunix.TabIndex = 5;
@@ -111,23 +122,23 @@
             gridAplicativosAbertos.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             gridAplicativosAbertos.BackgroundColor = SystemColors.ControlLightLight;
             gridAplicativosAbertos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridAplicativosAbertos.Location = new Point(20, 45);
+            gridAplicativosAbertos.Location = new Point(7, 6);
             gridAplicativosAbertos.Margin = new Padding(4, 3, 4, 3);
             gridAplicativosAbertos.Name = "gridAplicativosAbertos";
             gridAplicativosAbertos.ReadOnly = true;
             gridAplicativosAbertos.RowHeadersVisible = false;
-            gridAplicativosAbertos.Size = new Size(775, 335);
+            gridAplicativosAbertos.Size = new Size(810, 335);
             gridAplicativosAbertos.TabIndex = 4;
             // 
-            // button1
+            // btnConsutarJanelasAbertas
             // 
-            button1.Location = new Point(720, 16);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 1;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click_1;
+            btnConsutarJanelasAbertas.Location = new Point(648, 347);
+            btnConsutarJanelasAbertas.Name = "btnConsutarJanelasAbertas";
+            btnConsutarJanelasAbertas.Size = new Size(169, 23);
+            btnConsutarJanelasAbertas.TabIndex = 1;
+            btnConsutarJanelasAbertas.Text = "Consutar Janelas Abertas";
+            btnConsutarJanelasAbertas.UseVisualStyleBackColor = true;
+            btnConsutarJanelasAbertas.Click += button1_Click_1;
             // 
             // FPrincipal
             // 
@@ -136,13 +147,14 @@
             ClientSize = new Size(881, 450);
             Controls.Add(tabControl1);
             Name = "FPrincipal";
-            Text = "Principal";
+            Text = "Monix";
             FormClosing += FPrincipal_FormClosing;
             tabControl1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
+            tabPageApicativos.ResumeLayout(false);
+            tabPageApicativos.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)gridAplicativos).EndInit();
-            tabPage2.ResumeLayout(false);
-            tabPage2.PerformLayout();
+            tabPageAdicionarConf.ResumeLayout(false);
+            tabPageAdicionarConf.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)gridAplicativosAbertos).EndInit();
             ResumeLayout(false);
         }
@@ -150,12 +162,13 @@
         #endregion
 
         private TabControl tabControl1;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
-        private Button button1;
+        private TabPage tabPageApicativos;
+        private TabPage tabPageAdicionarConf;
+        private Button btnConsutarJanelasAbertas;
         private DataGridView gridAplicativos;
         private DataGridView gridAplicativosAbertos;
         private CheckBox chkAplicacoesPadraoComunix;
         private CheckBox chkCASCADIA_WINDOW;
+        private Label lbTituloAplicativos;
     }
 }

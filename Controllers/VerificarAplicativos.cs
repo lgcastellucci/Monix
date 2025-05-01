@@ -46,11 +46,12 @@ namespace Monix.Controllers
 
                     foreach (DataRow item in DataTableAplicativos.dataTable.Rows)
                     {
+                        item["DataUltimaChecagem"] = DateTime.Now;
                         LoggerService.Information("Verificando aplicativo: " + item["Nome"].ToString());
 
                         if (IsWindowVisible(item["Title"].ToString(), item["ClassName"].ToString(), item["ProcessName"].ToString()))
                         {
-                            item["QtdOk"] = (Convert.ToInt32(item["QtdOk"].ToString()) + 1).ToString();
+                            item["QtdErro"] = "0";
                             LoggerService.Information($"O aplicativo '{item["Nome"]}' está aberto.");
                         }
                         else
@@ -59,10 +60,17 @@ namespace Monix.Controllers
                             LoggerService.Warning($"O aplicativo '{item["Nome"]}' não está aberto.");
                         }
 
+                        if (Convert.ToInt32(item["QtdErro"].ToString()) == 0)
+                            item["Status"] = "Ok"; // Aplicativo está aberto
+                        else if (Convert.ToInt32(item["QtdErro"].ToString()) < 5)
+                            item["Status"] = "Warn"; // Aplicativo não está aberto
+                        else
+                            item["Status"] = "Erro"; // Aplicativo não está aberto e já foi verificado mais de 2 vezes
+
                     }
 
                     LoggerService.Information("Fim VerificarAplicativos");
-                    Thread.Sleep(5 * 1000); // 5 segundos
+                    Thread.Sleep(1000); // 1 segundo
                 }
             }
             catch (Exception e)
@@ -86,7 +94,7 @@ namespace Monix.Controllers
                     if (window.Title.Equals(title, StringComparison.OrdinalIgnoreCase) &&
                         window.ClassName.Equals(className, StringComparison.OrdinalIgnoreCase) &&
                         window.ProcessName.Equals(processName, StringComparison.OrdinalIgnoreCase))
-                      return true;
+                        return true;
                 }
                 ;
             }

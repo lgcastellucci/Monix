@@ -60,7 +60,6 @@ namespace Monix
             DataTableAplicativos.dataTable.Columns.Add("ProcessName", typeof(string));
             DataTableAplicativos.dataTable.Columns.Add("ExecutablePath", typeof(string));
             DataTableAplicativos.dataTable.Columns.Add("DataUltimaChecagem", typeof(DateTime));
-            DataTableAplicativos.dataTable.Columns.Add("QtdOk", typeof(int));
             DataTableAplicativos.dataTable.Columns.Add("QtdErro", typeof(int));
             DataTableAplicativos.dataTable.Columns.Add("Status", typeof(string));
 
@@ -74,6 +73,10 @@ namespace Monix
 
             gridAplicativos.Columns["Nome"].Width = 150;
             gridAplicativos.Columns["DataUltimaChecagem"].Width = 150;
+
+            // Configura o formato da coluna DataUltimaChecagem para exibir segundos
+            gridAplicativos.Columns["DataUltimaChecagem"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+
 
             var aplicativos = _configuration.GetSection("Aplicativos").Get<List<Aplicativo>>();
 
@@ -90,7 +93,7 @@ namespace Monix
             foreach (var aplicativo in aplicativos)
             {
                 DataTableAplicativos.dataTable.Rows.Add(aplicativo.Nome, aplicativo.Title, aplicativo.ClassName, aplicativo.ProcessName, aplicativo.ExecutablePath,
-                                                        aplicativo.DataUltimaChecagem, aplicativo.QtdOk, aplicativo.QtdErro, aplicativo.Status);
+                                                        aplicativo.DataUltimaChecagem, aplicativo.QtdErro, aplicativo.Status);
             }
 
 
@@ -126,13 +129,43 @@ namespace Monix
 
             var _dataTableAplicativosAbertos = new DataTable();
 
+            _dataTableAplicativosAbertos.Columns.Add("Nome", typeof(string));
             _dataTableAplicativosAbertos.Columns.Add("Title", typeof(string));
             _dataTableAplicativosAbertos.Columns.Add("ClassName", typeof(string));
             _dataTableAplicativosAbertos.Columns.Add("ProcessName", typeof(string));
             _dataTableAplicativosAbertos.Columns.Add("ExecutablePath", typeof(string));
 
-
             gridAplicativosAbertos.DataSource = _dataTableAplicativosAbertos;
+
+            // Permitir edição no DataGridView
+            gridAplicativosAbertos.ReadOnly = false;
+
+            // Garantir que a coluna "ExecutablePath" seja editável
+            gridAplicativosAbertos.Columns["ExecutablePath"].ReadOnly = false;
+
+            // Adicionar coluna de botão
+            if (!gridAplicativosAbertos.Columns.Contains("Adicionar"))
+            {
+                var buttonColumn = new DataGridViewButtonColumn
+                {
+                    Name = "Adicionar",
+                    HeaderText = "Ação",
+                    Text = "Adicionar",
+                    UseColumnTextForButtonValue = true
+                };
+                gridAplicativosAbertos.Columns.Add(buttonColumn);
+            }
+            if (!gridAplicativosAbertos.Columns.Contains("Remover"))
+            {
+                var buttonColumn = new DataGridViewButtonColumn
+                {
+                    Name = "Remover",
+                    HeaderText = "Ação",
+                    Text = "Remover",
+                    UseColumnTextForButtonValue = true
+                };
+                gridAplicativosAbertos.Columns.Add(buttonColumn);
+            }
 
             // Limpa a lista antes de adicionar novos itens
             _dataTableAplicativosAbertos.Rows.Clear();
@@ -168,21 +201,78 @@ namespace Monix
                 if (chkAplicacoesPadraoComunix.Checked)
                 {
                     if (window.ClassName == "TApplication") //Aplicações feitas em Delphi7
-                        _dataTableAplicativosAbertos.Rows.Add(window.Title, window.ClassName, window.ProcessName, window.ExecutablePath);
+                        _dataTableAplicativosAbertos.Rows.Add("", window.Title, window.ClassName, window.ProcessName, window.ExecutablePath);
                     else if (window.ClassName == "CASCADIA_HOSTING_WINDOW_CLASS") //Aplicações console usando windows terminal mais novo
-                        _dataTableAplicativosAbertos.Rows.Add(window.Title, window.ClassName, window.ProcessName, window.ExecutablePath);
+                        _dataTableAplicativosAbertos.Rows.Add("", window.Title, window.ClassName, window.ProcessName, window.ExecutablePath);
                     else if (window.ClassName == "ConsoleWindowClass") //Aplicações console usando terminal "antigo" do windows
-                        _dataTableAplicativosAbertos.Rows.Add(window.Title, window.ClassName, window.ProcessName, window.ExecutablePath);
+                        _dataTableAplicativosAbertos.Rows.Add("", window.Title, window.ClassName, window.ProcessName, window.ExecutablePath);
                 }
                 else
                 {
-                    _dataTableAplicativosAbertos.Rows.Add(window.Title, window.ClassName, window.ProcessName, window.ExecutablePath);
+                    _dataTableAplicativosAbertos.Rows.Add("", window.Title, window.ClassName, window.ProcessName, window.ExecutablePath);
                 }
             }
             windowList.Dispose();
 
+            // Adicionar evento de clique no botão
+            gridAplicativosAbertos.CellClick += GridAplicativosAbertos_CellClick;
+        }
+        private void GridAplicativosAbertos_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verifica se a célula clicada é da coluna de botão "Adicionar"
+            if (e.RowIndex >= 0 && gridAplicativosAbertos.Columns[e.ColumnIndex].Name == "Adicionar")
+            {
+                var row = gridAplicativosAbertos.Rows[e.RowIndex];
+                var title = row.Cells["Title"].Value?.ToString();
+                var className = row.Cells["ClassName"].Value?.ToString();
+                var processName = row.Cells["ProcessName"].Value?.ToString();
+                var executablePath = row.Cells["ExecutablePath"].Value?.ToString();
 
+                // Verificar se já existe na gridAplicativos
+                var exists = DataTableAplicativos.dataTable.AsEnumerable().Any(r =>
+                    r.Field<string>("Title") == title &&
+                    r.Field<string>("ClassName") == className &&
+                    r.Field<string>("ProcessName") == processName &&
+                    r.Field<string>("ExecutablePath") == executablePath);
 
+                if (!exists)
+                {
+                    // Adicionar à gridAplicativos
+                    DataTableAplicativos.dataTable.Rows.Add(title, title, className, processName, executablePath, DateTime.Now, 0, "Novo");
+                    MessageBox.Show("Aplicativo adicionado com sucesso!");
+                }
+                else
+                {
+                    MessageBox.Show("O aplicativo já existe na lista.");
+                }
+            }
+            // Verifica se a célula clicada é da coluna de botão "Remover"
+            else if (e.RowIndex >= 0 && gridAplicativosAbertos.Columns[e.ColumnIndex].Name == "Remover")
+            {
+                var row = gridAplicativosAbertos.Rows[e.RowIndex];
+                var title = row.Cells["Title"].Value?.ToString();
+                var className = row.Cells["ClassName"].Value?.ToString();
+                var processName = row.Cells["ProcessName"].Value?.ToString();
+                var executablePath = row.Cells["ExecutablePath"].Value?.ToString();
+
+                // Localizar a linha correspondente no DataTableAplicativos.dataTable
+                var rowToRemove = DataTableAplicativos.dataTable.AsEnumerable().FirstOrDefault(r =>
+                    r.Field<string>("Title") == title &&
+                    r.Field<string>("ClassName") == className &&
+                    r.Field<string>("ProcessName") == processName &&
+                    r.Field<string>("ExecutablePath") == executablePath);
+
+                if (rowToRemove != null)
+                {
+                    // Remover a linha do DataTable
+                    DataTableAplicativos.dataTable.Rows.Remove(rowToRemove);
+                    MessageBox.Show("Aplicativo removido com sucesso!");
+                }
+                else
+                {
+                    MessageBox.Show("Não foi possível encontrar o aplicativo para remover.");
+                }
+            }
         }
 
         private void FPrincipal_FormClosing(object sender, FormClosingEventArgs e)

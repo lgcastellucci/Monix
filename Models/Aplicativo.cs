@@ -9,7 +9,6 @@ namespace Monix.Models
         public string ProcessName { get; set; }
         public string ExecutablePath { get; set; }
         public DateTime? DataUltimaChecagem { get; set; }
-        public int QtdOk { get; set; }
         public int QtdErro { get; set; }
         public string Status { get; set; }
         public Aplicativo()
@@ -20,7 +19,6 @@ namespace Monix.Models
             ProcessName = "";
             ExecutablePath = "";
             DataUltimaChecagem = null;
-            QtdOk = 0;
             QtdErro = 0;
             Status = "";
         }
