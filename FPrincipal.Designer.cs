@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FPrincipal));
             tabControl1 = new TabControl();
             tabPageApicativos = new TabPage();
             lbTituloAplicativos = new Label();
@@ -36,6 +38,7 @@
             chkAplicacoesPadraoComunix = new CheckBox();
             gridAplicativosAbertos = new DataGridView();
             btnConsutarJanelasAbertas = new Button();
+            notifyIconMonix = new NotifyIcon(components);
             tabControl1.SuspendLayout();
             tabPageApicativos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridAplicativos).BeginInit();
@@ -47,10 +50,10 @@
             // 
             tabControl1.Controls.Add(tabPageApicativos);
             tabControl1.Controls.Add(tabPageAdicionarConf);
-            tabControl1.Location = new Point(12, 12);
+            tabControl1.Location = new Point(3, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(832, 426);
+            tabControl1.Size = new Size(446, 426);
             tabControl1.TabIndex = 3;
             // 
             // tabPageApicativos
@@ -60,7 +63,7 @@
             tabPageApicativos.Location = new Point(4, 24);
             tabPageApicativos.Name = "tabPageApicativos";
             tabPageApicativos.Padding = new Padding(3);
-            tabPageApicativos.Size = new Size(824, 398);
+            tabPageApicativos.Size = new Size(438, 398);
             tabPageApicativos.TabIndex = 0;
             tabPageApicativos.Text = "Apicativos";
             tabPageApicativos.UseVisualStyleBackColor = true;
@@ -86,7 +89,7 @@
             gridAplicativos.Name = "gridAplicativos";
             gridAplicativos.ReadOnly = true;
             gridAplicativos.RowHeadersVisible = false;
-            gridAplicativos.Size = new Size(810, 362);
+            gridAplicativos.Size = new Size(424, 362);
             gridAplicativos.TabIndex = 3;
             gridAplicativos.Leave += gridAplicativos_Leave;
             // 
@@ -98,7 +101,7 @@
             tabPageAdicionarConf.Location = new Point(4, 24);
             tabPageAdicionarConf.Name = "tabPageAdicionarConf";
             tabPageAdicionarConf.Padding = new Padding(3);
-            tabPageAdicionarConf.Size = new Size(824, 398);
+            tabPageAdicionarConf.Size = new Size(438, 398);
             tabPageAdicionarConf.TabIndex = 1;
             tabPageAdicionarConf.Text = "AdicionarConf";
             tabPageAdicionarConf.UseVisualStyleBackColor = true;
@@ -127,12 +130,12 @@
             gridAplicativosAbertos.Name = "gridAplicativosAbertos";
             gridAplicativosAbertos.ReadOnly = true;
             gridAplicativosAbertos.RowHeadersVisible = false;
-            gridAplicativosAbertos.Size = new Size(810, 335);
+            gridAplicativosAbertos.Size = new Size(410, 335);
             gridAplicativosAbertos.TabIndex = 4;
             // 
             // btnConsutarJanelasAbertas
             // 
-            btnConsutarJanelasAbertas.Location = new Point(648, 347);
+            btnConsutarJanelasAbertas.Location = new Point(270, 344);
             btnConsutarJanelasAbertas.Name = "btnConsutarJanelasAbertas";
             btnConsutarJanelasAbertas.Size = new Size(169, 23);
             btnConsutarJanelasAbertas.TabIndex = 1;
@@ -140,15 +143,26 @@
             btnConsutarJanelasAbertas.UseVisualStyleBackColor = true;
             btnConsutarJanelasAbertas.Click += button1_Click_1;
             // 
+            // notifyIconMonix
+            // 
+            notifyIconMonix.Icon = (Icon)resources.GetObject("notifyIconMonix.Icon");
+            notifyIconMonix.Text = "Monix";
+            notifyIconMonix.Visible = true;
+            notifyIconMonix.DoubleClick += notifyIconMonix_DoubleClick;
+            // 
             // FPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(881, 450);
+            ClientSize = new Size(450, 436);
             Controls.Add(tabControl1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "FPrincipal";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Monix";
             FormClosing += FPrincipal_FormClosing;
+            Resize += FPrincipal_Resize;
             tabControl1.ResumeLayout(false);
             tabPageApicativos.ResumeLayout(false);
             tabPageApicativos.PerformLayout();
@@ -170,5 +184,6 @@
         private CheckBox chkAplicacoesPadraoComunix;
         private CheckBox chkCASCADIA_WINDOW;
         private Label lbTituloAplicativos;
+        private NotifyIcon notifyIconMonix;
     }
 }

@@ -73,6 +73,8 @@ namespace Monix
 
             gridAplicativos.Columns["Nome"].Width = 150;
             gridAplicativos.Columns["DataUltimaChecagem"].Width = 150;
+            gridAplicativos.Columns["QtdErro"].Width = 50;
+            gridAplicativos.Columns["Status"].Width = 50;
 
             // Configura o formato da coluna DataUltimaChecagem para exibir segundos
             gridAplicativos.Columns["DataUltimaChecagem"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
@@ -291,5 +293,24 @@ namespace Monix
             //Application.Exit();
         }
 
+        private void FPrincipal_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+                Hide(); // Esconde o formulário quando é minimizado
+        }
+
+        private void notifyIconMonix_DoubleClick(object sender, EventArgs e)
+        {
+            // Restaura o formulário
+            if (WindowState == FormWindowState.Minimized)
+            {
+                // Restaura o formulário se estiver minimizado
+                Show();
+                WindowState = FormWindowState.Normal;
+            }
+
+            // Traz o formulário para frente
+            Activate();
+        }
     }
 }
